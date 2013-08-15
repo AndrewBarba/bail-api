@@ -14,7 +14,8 @@ BailOutSchema.statics.log = function(phone_number, success, callback) {
 		"phone_number" : phone_number,
 		"success" : success
 	};
-	var bailout = new BailOut(data, callback);
+	var bailout = new BailOut(data);
+	bailout.save(callback);
 }
 
 var BailOut = mongoose.model("BailOut", BailOutSchema);
