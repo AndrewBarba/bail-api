@@ -10,6 +10,7 @@ var VERIFICATION_CODE_LENGTH = 5;
 var UserSchema = BaseSchema.extend({
     phone_number: { type: String, index: { unique: true } }, // cell number, no +
     auth_token: { type: String, default: BLANK_STRING, required: true, index: { unique: true } },
+    bail_outs: { type: Number, default: 0 }
     verification_code: { type: String, default: BLANK_STRING },
 });
 
