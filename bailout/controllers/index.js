@@ -3,6 +3,7 @@ function Controller(app) {
 	this.RootController = require("./root_controller")(app);
 	this.UserController = require("./user_controller")(app);
 	this.AuthController = require("./auth_controller")(app);
+	this.BailController = require("./bail_controller")(app);
 	this.ErrorController = require("./error_controller");
 }
 

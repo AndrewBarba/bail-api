@@ -168,20 +168,5 @@ AuthSchema.statics.getCurrentUser = function(reqOrToken, callback, select) {
 	}
 };
 
-/**
- * Gets the current user and checks if they are admin
- * If not, returns null
- */
-AuthSchema.statics.getAdminUser = function(req, callback) {
-	this.getCurrentUser(req, function(err, user){
-		if (err || !user) return callback(err);
-		if (user.admin) {
-			callback(null, user);
-		} else {
-			callback("Not authorized");
-		}
-	}, "+admin");
-};
-
 var Auth = mongoose.model("Authentication", AuthSchema);
 module.exports = Auth;

@@ -10,11 +10,13 @@
 	"twilio" : {
 		"production" : {
 			"key" : "AC444de0a850e8d0e457e3f8ae5b9e332b",
-			"secret" : "1dc58f02c00de870bbfd553826c7bf56"
+			"secret" : "1dc58f02c00de870bbfd553826c7bf56",
+			"phone_number" : "+18183224563"
 		},
 		"development" : {
 			"key" : "AC7b6becb78484e6f1ce49650a9d6cb9b3",
-			"secret" : "e3f992b254f3dcc371b9272b8596ac5c"
+			"secret" : "e3f992b254f3dcc371b9272b8596ac5c",
+			"phone_number" : "+18183224563"
 		}
 	}
 }

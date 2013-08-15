@@ -29,6 +29,14 @@ module.exports = function(app) {
  * Helper functions
  */
 AB = function(){};
+AB.randomNumber = function(x) {
+    if (!x) x = 5;
+    var ans = "";
+    for (var i = 0; i < x; i++) {
+        ans += Math.floor((Math.random()*9)+1);
+    }
+    return ans;
+}
 AB.s4 = function(){return (((1+Math.random())*0x10000)|0).toString(16).substring(1); } // random 4 digit string/number
 AB.guid = function(del){ // guid generator
 	if (!del) del = "-";
