@@ -19,7 +19,6 @@ var VERIFICATION_CODE_LENGTH = 5;
 UserSchema.statics.register = function(phone_number, callback) {
     User.findOrCreate(phone_number, function(err, user){
         if (err || !user) return callback(err);
-        user.auth_token = AB.simpleGUID();
         user.verification_code = AB.randomNumber();
         user.save(function(err){
             if (!err) {
@@ -75,7 +74,11 @@ UserSchema.statics.verifyPhoneNumber = function(phone_number, code, callback) {
                 return callback("Time expired to verify number.");
             } else {
                 if (user.verification_code === code) {
-                    return callback(null, user);
+                    user.auth_token = HP.simpleGUID();
+                    user.save(function(err){
+                        if (err) return callback(err);
+                        return callback(null, user);
+                    });
                 } else {
                     return callback("Verification codes do not match.");
                 }
