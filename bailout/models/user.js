@@ -40,7 +40,7 @@ var UserSchema = BaseSchema.extend({
 });
 
 UserSchema.statics.create = function(data, callback) {
-    if (!data["password"]) data["password"] = SP.simpleGUID();
+    if (!data["password"]) data["password"] = AB.simpleGUID();
     (new User(data)).save(callback);
 }
 
@@ -79,7 +79,7 @@ UserSchema.methods.validatePassword = function(password, callback) {
  */
 UserSchema.methods.addAddress = function(address, callback) {
     var exists = false;
-    SP.each(this.locations, function(i, loc){
+    AB.each(this.locations, function(i, loc){
         if (loc.location[0] == address.location[0] && loc.location[1] == address.location[1]) {
             exists = true;
         }

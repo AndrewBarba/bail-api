@@ -2,7 +2,7 @@
 var mongoose = require("mongoose");
 
 var base_data = {
-    _id: { type: String, default: SP.simpleGUID, index: { unique: true } },
+    _id: { type: String, default: AB.simpleGUID, index: { unique: true } },
     updated_at: { type: Number, default: Date.now },
     created_at: { type: Number, default: Date.now },
 };
@@ -18,7 +18,7 @@ BaseSchema.pre("save", function(next) {
 
 BaseSchema.statics.putData = function(id, data, callback, allowed_keys) {
     var allowed_data = {};
-    SP.each(allowed_keys, function(i,k){
+    AB.each(allowed_keys, function(i,k){
         val = data[k];
         if (val != null) allowed_data[k] = val;
     });
@@ -28,14 +28,14 @@ BaseSchema.statics.putData = function(id, data, callback, allowed_keys) {
 BaseSchema.methods.putData = function(data, callback, allowed_keys) {
     var allowed_data = {};
     if (allowed_keys && allowed_keys.length) {
-        SP.each(allowed_keys, function(i,k){
+        AB.each(allowed_keys, function(i,k){
             val = data[k];
             if (val != null) allowed_data[k] = val;
         });
     } else {
         allowed_data = data;
     }
-    SP.extend(this, allowed_data, true);
+    AB.extend(this, allowed_data, true);
     this.save(callback);
 };
 

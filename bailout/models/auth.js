@@ -7,7 +7,7 @@ var BaseSchema = require("../schemas/base"),
           User = require("./user");
 
 var AuthSchema = BaseSchema.extend({
-    auth_token : { type: String, default: SP.simpleGUID, required: true, index: { unique: true } },
+    auth_token : { type: String, default: AB.simpleGUID, required: true, index: { unique: true } },
     user       : { type: String, ref: "User", required: true, index : true },
     valid      : { type: Boolean, default: true },
 });
@@ -19,7 +19,7 @@ AuthSchema.statics.create = function(user, callback) {
 	if (!user) return callback();
 	var auth = new Auth({
 		"user" : user._id,
-		"auth_token" : SP.simpleGUID(2),
+		"auth_token" : AB.simpleGUID(2),
 	});
 	auth.save(function(err){
 		auth.populate({path:"user", select:"+password"}, callback);
@@ -39,7 +39,7 @@ AuthSchema.statics.register = function(data, callback) {
         "name" : data.name,
         "first_name" : data.first_name,
         "last_name" : data.last_name,
-        "password" : data.password ? data.password : SP.simpleGUID(),
+        "password" : data.password ? data.password : AB.simpleGUID(),
         "gender" : data.gender,
         "phone_number" : data.phone_number,
     };
@@ -78,7 +78,7 @@ AuthSchema.statics.changePassword = function(user, password, old_password, callb
     	user.validatePassword(old_password, function(err, success){
     		if (err || !success) return callback(err);
     		user.password = password;
-    		auth.auth_token = SP.guid();
+    		auth.auth_token = AB.guid();
     		auth.save(function(err){
     			if (err) return callback(err);
     			user.save(function(err){
@@ -141,7 +141,7 @@ AuthSchema.statics.getAuth = function(user, callback) {
 			// If they logged in and their auth wasn't valid, regenerate an auth_token
 			if (!auth.valid) {
 				auth.valid = true;
-				auth.auth_token = SP.guid();
+				auth.auth_token = AB.guid();
 				auth.save(callback);
 			} else {
 				callback(null, auth);

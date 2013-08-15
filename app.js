@@ -7,7 +7,6 @@
 AB_SETTINGS = require("./settings");
 AB_ENV = process.env.NODE_ENV;
 AB_PROD = AB_ENV == "production";
-AB_UNIT_TEST = false; // turn off unit testing mode
 
 // custom logging function
 trace = function(a, force) {
@@ -47,12 +46,13 @@ app.configure(function () {
 /**
  * Initialize Mongoose and connect to MongoHQ
  */
+var MONGO_HQ_URL = AB_SETTINGS.mongo[AB_ENV].url;
 var options = {
 	server: {
 		socketOptions : { keepAlive : 1 } // keep the connection open even if inactive
 	},
 };
-mongoose.connect(process.env.MONGOHQ_URL, options, function(err){
+mongoose.connect(MONGO_HQ_URL, options, function(err){
 	if (!err) {
 		trace("Connected to MongoHQ");
 	} else {

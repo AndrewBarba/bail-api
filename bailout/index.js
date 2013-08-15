@@ -1,5 +1,5 @@
 
-function Suprizr(app) {
+function BailOut(app) {
 	
 	// Load Suprizr models
 	this.model = require("./models");
@@ -10,41 +10,44 @@ function Suprizr(app) {
 		this.controller = controller(app);
 	}
 
+    // load Twilio
+    this.twilio = require('twilio')(AB_SETTINGS.twilio[AB_ENV].key, AB_SETTINGS.twilio[AB_ENV].secret);
+
     // Load Modules
     this.module = require("./modules");
 }
 
-var _suprizr = false;
+var _bailout = false;
 module.exports = function(app) {
-	if (!_suprizr) {
-        _suprizr = new Suprizr(app);
+	if (!_bailout) {
+        _bailout = new BailOut(app);
     }
-	return _suprizr;
+	return _bailout;
 }
 
 /**
  * Helper functions
  */
-SP = function(){};
-SP.s4 = function(){return (((1+Math.random())*0x10000)|0).toString(16).substring(1); } // random 4 digit string/number
-SP.guid = function(del){ // guid generator
+AB = function(){};
+AB.s4 = function(){return (((1+Math.random())*0x10000)|0).toString(16).substring(1); } // random 4 digit string/number
+AB.guid = function(del){ // guid generator
 	if (!del) del = "-";
-	return(SP.s4()+SP.s4()+del+SP.s4()+del+"4"+SP.s4().substr(0,3)+del+SP.s4()+del+SP.s4()+SP.s4()+SP.s4());
+	return(AB.s4()+AB.s4()+del+AB.s4()+del+"4"+AB.s4().substr(0,3)+del+AB.s4()+del+AB.s4()+AB.s4()+AB.s4());
 }
-SP.simpleGUID = function(x) {
+AB.simpleGUID = function(x) {
 	if (!x) x = 1;
     var s = "";
-	for (var i = 0; i < 8*x; i++) s += SP.s4();
+	for (var i = 0; i < 8*x; i++) s += AB.s4();
 	return s;
 }
-SP.now = function() {
+AB.now = function() {
     return (new Date()).getTime();
 }
-SP.dateString = function(date) { // returns a nicely formatted date string
+AB.dateString = function(date) { // returns a nicely formatted date string
     if (!date) date = new Date();
     return (date.getMonth()+1) + "." + date.getDate() + "." + date.getFullYear();
 }
-SP.relativeTime = function(date) { // returns a string that nicely portrays relative time since a given date
+AB.relativeTime = function(date) { // returns a string that nicely portrays relative time since a given date
     var now = new Date();
     var nowSeconds = now.getTime() / 1000;
     var dateSeconds = date.getTime() / 1000;
@@ -62,14 +65,14 @@ SP.relativeTime = function(date) { // returns a string that nicely portrays rela
         tense = "day";
         diff = Math.floor(diff/60/60/24);
         if (diff == 1) return "yesterday";
-        if (diff < 7) return SP.dayOfWeek(date);
+        if (diff < 7) return AB.dayOfWeek(date);
     } else {
-        return SP.dateString(date);
+        return AB.dateString(date);
     }
     if (diff != 1) tense += "s";
     return diff + " " + tense + " ago";
 }
-SP.dayOfWeek = function(date) { // returns the english day of week for the given date
+AB.dayOfWeek = function(date) { // returns the english day of week for the given date
     switch(date.getDay()) {
         case 0: return "Sunday";
         case 1: return "Monday";
@@ -81,7 +84,7 @@ SP.dayOfWeek = function(date) { // returns the english day of week for the given
     }
     return "";
 }
-SP.monthString = function(date) { // returns the english month for the given date
+AB.monthString = function(date) { // returns the english month for the given date
     switch(date.getMonth()) {
         case 0: return "January";
         case 1: return "February";
@@ -98,7 +101,7 @@ SP.monthString = function(date) { // returns the english month for the given dat
     }
     return "";
 }
-SP.parseDiaryDate = function(d) { // parses a date in the format YYYY-MM-DD ex: 2013-05-01
+AB.parseDiaryDate = function(d) { // parses a date in the format YYYY-MM-DD ex: 2013-05-01
     if (d && d != "") {
         var parts = d.match(/(\d+)/g);
         return new Date(parts[0], parts[1]-1, parts[2]);
@@ -106,11 +109,11 @@ SP.parseDiaryDate = function(d) { // parses a date in the format YYYY-MM-DD ex: 
         return false;
     }
 }
-SP.parseDateInputString = function(s) { // this function parses dates in the format "2013-06-11T01:00"
+AB.parseDateInputString = function(s) { // this function parses dates in the format "2013-06-11T01:00"
     var date = false;
     var parts = s.split("T");
     if (parts.length > 0) {
-        date = SP.parseDiaryDate(parts[0]);
+        date = AB.parseDiaryDate(parts[0]);
     }
     if (date && parts.length > 1) {
         var time = parts[1].split(":");
@@ -119,8 +122,8 @@ SP.parseDateInputString = function(s) { // this function parses dates in the for
     }
     return date;
 }
-SP.dateToInputDateString = function(date) {
-    var s = SP.diaryDate(date) + "T";
+AB.dateToInputDateString = function(date) {
+    var s = AB.diaryDate(date) + "T";
     
     var hours = date.getHours();
     if (hours < 10) hours = "0" + hours;
@@ -132,7 +135,7 @@ SP.dateToInputDateString = function(date) {
 
     return s;
 }
-SP.secondsToFullDateString = function(d) {
+AB.secondsToFullDateString = function(d) {
     var date = new Date(d*1000);
     var s = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear()
 
@@ -145,18 +148,18 @@ SP.secondsToFullDateString = function(d) {
     if (m < 10) m = "0" + m;
     return s + " " + h + ":" + m + a;
 }
-SP.isEmail = function(email) { // is the given string a valid email address
+AB.isEmail = function(email) { // is the given string a valid email address
     var filter = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return filter.test(email);
 }
-SP.randomElement = function(array) { // grab a random element from an array
+AB.randomElement = function(array) { // grab a random element from an array
     return array[Math.floor(Math.random()*array.length)];
 }
-SP.trackTime = function(date) { // prints/returns time difference (seconds) between now and a given date
+AB.trackTime = function(date) { // prints/returns time difference (seconds) between now and a given date
     var seconds = ((new Date()).getTime()/1000) - (date.getTime()/1000);
     return seconds;
 }
-SP.each = function(arr,fnc) { // a simple for-each implementation
+AB.each = function(arr,fnc) { // a simple for-each implementation
     if (arr instanceof Array) {
         for (var i = 0; i < arr.length; i++) {
             var obj = arr[i];
@@ -169,9 +172,9 @@ SP.each = function(arr,fnc) { // a simple for-each implementation
         }
     }
 }
-SP.extend = function(a,b,f) { // combines second dict into first dict and returns it. if third param is true, b keys overright a keys
+AB.extend = function(a,b,f) { // combines second dict into first dict and returns it. if third param is true, b keys overright a keys
     if (a) {
-        SP.each(b,function(k,v){
+        AB.each(b,function(k,v){
             if (v != null && (!a[k] || f)) a[k] = v;
         });
         return a;
@@ -179,15 +182,15 @@ SP.extend = function(a,b,f) { // combines second dict into first dict and return
         return b;
     }
 }
-SP.removeKeys = function(data, remove) {
-    SP.each(remove, function(i,k){
+AB.removeKeys = function(data, remove) {
+    AB.each(remove, function(i,k){
         delete data[k];
     });
     return data;
 }
-SP.grep = function(arr,fnc) { // filters an array according to a given function
+AB.grep = function(arr,fnc) { // filters an array according to a given function
     var newarr = [];
-    SP.each(arr,function(k,v){
+    AB.each(arr,function(k,v){
         var pass = fnc.call(v,v,k);
         if (pass) newarr.push(v);
     });

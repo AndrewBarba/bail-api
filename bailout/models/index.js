@@ -2,9 +2,6 @@
 function Model() {
 	this.User = require("./user");
 	this.Auth = require("./auth");
-    this.Restaurant = require("./restaurant");
-    this.Meal = require("./meal");
-    this.Order = require("./order");
 }
 
 module.exports = new Model();

@@ -1,21 +1,20 @@
 {
-	"stripe" : {
+	"mongo" : {
 		"production" : {
-			"key" : "pk_live_ziHXYJHEcwG0MEghRpyrNY93",
-			"secret" : "sk_live_1Pd2kDPJ8SwB71Wfc6axHRE2"
+			"url" : "mongodb://api:h8Dh7fhs8sjI@paulo.mongohq.com:10095/bailout"
 		},
 		"development" : {
-			"key" : "pk_test_xBSy6LGd9tiFsKrQzO8gAyR8",
-			"secret" : "sk_test_CWaVgrnAT2GJtWLsH1uzL3uX"
+			"url" : "mongodb://api:h8Dh7fhs8sjI@paulo.mongohq.com:10095/bailout"
 		}
 	},
-	"facebook" : {
-		"app_id" : "285543038247615",
-		"secret" : "9f61d884e3c14214805c84ef5009fbab"
+	"twilio" : {
+		"production" : {
+			"key" : "AC444de0a850e8d0e457e3f8ae5b9e332b",
+			"secret" : "1dc58f02c00de870bbfd553826c7bf56"
+		},
+		"development" : {
+			"key" : "AC7b6becb78484e6f1ce49650a9d6cb9b3",
+			"secret" : "e3f992b254f3dcc371b9272b8596ac5c"
+		}
 	},
-	"google" : {
-		"api_key" : "AIzaSyADEwRuwXbsqJM-35XXVAkBfXhYVsUgFi4",
-		"sample_search_url" : "https://maps.googleapis.com/maps/api/place/textsearch/json?query=supreme%20pizza,%20boston&sensor=false&key=AIzaSyADEwRuwXbsqJM-35XXVAkBfXhYVsUgFi4",
-		"sample_details_url" : "https://maps.googleapis.com/maps/api/place/details/json?reference=CnRsAAAAkt93C7VGt0s6Cc1V4j-tNr98hMKvcIEhsUdd78A-oIOwxL2CqzlvaSV87WNzB1a8LAFm1lAtnmTVxJTGZJJfKZC13r2T9jYNLpJMi1b6dId_46hgzjiV1WhV3xqKHrDAJ_Um2YIdBYMYE4POtToWIxIQwN6y3jAWd9efQZinvMbughoUsVXFu4XzrY1_WVReyH_QoUI1IJc&key=AIzaSyADEwRuwXbsqJM-35XXVAkBfXhYVsUgFi4&sensor=false"
-	}
 }
