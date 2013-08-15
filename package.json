@@ -8,7 +8,7 @@
         "mongoose" : "3.x",
         "mongoose-schema-extend" : "x",
         "bcrypt" : "x",
-        "cors" : "x",
+        "cors" : "x"
     },
 
     "devDependencies": {
