@@ -4,13 +4,14 @@ var BaseSchema = require("../schemas/base"),
         extend = require("mongoose-schema-extend"),
   twilioClient = require("../modules/twilio");
 
+var BLANK_STRING = "xxx";
+var VERIFICATION_CODE_LENGTH = 5;
+
 var UserSchema = BaseSchema.extend({
     phone_number: { type: String, index: { unique: true } }, // cell number, no +
-    auth_token: { type: String, default: AB.simpleGUID, required: true, index: { unique: true } },
-    verification_code: { type: String, default: AB.randomNumber },
+    auth_token: { type: String, default: BLANK_STRING, required: true, index: { unique: true } },
+    verification_code: { type: String, default: BLANK_STRING },
 });
-
-var VERIFICATION_CODE_LENGTH = 5;
 
 /**
  * Creates a record in the db if one does not exist
@@ -73,7 +74,9 @@ UserSchema.statics.verifyPhoneNumber = function(phone_number, code, callback) {
             if (diff > exp) { // time expired
                 return callback("Time expired to verify number.");
             } else {
-                if (user.verification_code === code) {
+                var verification_code = user.verification_code;
+                if (verification_code != BLANK_STRING && verification_code === code) {
+                    user.verification_code = BLANK_STRING;
                     user.auth_token = AB.simpleGUID();
                     user.save(function(err){
                         if (err) return callback(err);
@@ -123,7 +126,7 @@ UserSchema.methods.bail = function(time, callback) {
  */
 UserSchema.statics.getCurrentUser = function(reqOrToken, callback) {
     var token = (typeof reqOrToken == "string") ? reqOrToken : reqOrToken.query.auth;
-    if (token) {
+    if (token && token != BLANK_STRING) {
         User.findOne({ "auth_token" : token }, callback);
     } else {
         callback("Not authorized");
