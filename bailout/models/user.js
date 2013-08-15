@@ -122,7 +122,7 @@ UserSchema.methods.bail = function(time, callback) {
         twilioClient.makeCall(data, function(err){
             var success = err ? false : true;
             BailOut.log(user.phone_number, success, function(err, bailout){
-                if (!err && success) {
+                if (bailout && bailout.success) {
                     user.bail_outs = user.bail_outs + 1;
                     user.save();
                     if (callback) callback(null, bailout);
