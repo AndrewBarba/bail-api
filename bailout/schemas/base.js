@@ -7,7 +7,7 @@ var base_data = {
     created_at: { type: Number, default: Date.now },
 };
 
-var BaseSchema = new mongoose.Schema(base_data, {strict: SP_PROD ? true : "throw" });
+var BaseSchema = new mongoose.Schema(base_data, {strict: AB_PROD ? true : "throw" });
 
 BaseSchema.pre("save", function(next) {
     if (this.isModified()) {

@@ -1,7 +1,6 @@
 
 function Module() {
-	this.Stripe = require("./stripe");
-	this.Request = require("./sphttp");
+	this.Request = require("./abhttp");
 }
 
 module.exports = new Module();

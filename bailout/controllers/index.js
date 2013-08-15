@@ -3,10 +3,6 @@ function Controller(app) {
 	this.RootController = require("./root_controller")(app);
 	this.UserController = require("./user_controller")(app);
 	this.AuthController = require("./auth_controller")(app);
-	this.RestaurantController = require("./restaurant_controller")(app);
-	this.OrderController = require("./order_controller")(app);
-	this.MealController = require("./meal_controller")(app);
-	this.SuprizController = require("./supriz_controller")(app);
 	this.ErrorController = require("./error_controller");
 }
 

@@ -3,7 +3,7 @@ var BaseSchema = require("../schemas/base"),
       mongoose = require("mongoose"),
         Schema = mongoose.Schema,
         extend = require("mongoose-schema-extend"),
-        sphttp = require("../modules/sphttp"),
+        sphttp = require("../modules/abhttp"),
           User = require("./user");
 
 var AuthSchema = BaseSchema.extend({

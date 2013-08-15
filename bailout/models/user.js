@@ -1,6 +1,5 @@
 
 var BaseSchema = require("../schemas/base"),
-LocationSchema = require("../schemas/location"),
       mongoose = require("mongoose"),
         extend = require("mongoose-schema-extend"),
         bcrypt = require("bcrypt"),
@@ -27,7 +26,6 @@ var UserSchema = BaseSchema.extend({
             card_type: String
         }
     },
-    locations: { type: [LocationSchema], default: [] }, // array of past order locations
     first_name: String,
     last_name: String, 
     name: String,
