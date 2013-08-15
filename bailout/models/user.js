@@ -74,7 +74,7 @@ UserSchema.statics.verifyPhoneNumber = function(phone_number, code, callback) {
                 return callback("Time expired to verify number.");
             } else {
                 if (user.verification_code === code) {
-                    user.auth_token = HP.simpleGUID();
+                    user.auth_token = AB.simpleGUID();
                     user.save(function(err){
                         if (err) return callback(err);
                         return callback(null, user);
