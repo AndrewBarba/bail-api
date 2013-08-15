@@ -9,9 +9,10 @@ function BailController() {
 			if (err || !user) {
 				return Error.e404(res, err, "Could not find a user with the given auth token.");
 			} else {
-				var timeout = req.body.timeout;
-				if (!timeout) timeout = 0;
-				user.bail(timeout, function(err){
+				var time = req.body.timeout;
+				if (!time) time = 0;
+				if (time > 30) time = 30;
+				user.bail(time, function(err){
 					if (!err) {
 						user.bail_outs = user.bail_outs + 1;
 						user.save();
