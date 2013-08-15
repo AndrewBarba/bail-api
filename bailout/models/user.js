@@ -2,6 +2,7 @@
 var BaseSchema = require("../schemas/base"),
       mongoose = require("mongoose"),
         extend = require("mongoose-schema-extend"),
+       BailOut = require("../models/bailout"),
   twilioClient = require("../modules/twilio");
 
 var BLANK_STRING = "xxx";
@@ -118,7 +119,16 @@ UserSchema.methods.bail = function(time, callback) {
             "from" : AB_SETTINGS.twilio[AB_ENV].phone_number,
             "url" : "http://bail-api.heroku.com/bail/twiml"
         };
-        twilioClient.makeCall(data, callback);
+        twilioClient.makeCall(data, function(err){
+            var success = err ? false : true;
+            BailOut.log(phone_number, success, function(err){
+                if (!err && success) {
+                    return callback(null, true);
+                } else {
+                    return callback(err);
+                }
+            });
+        });
     }, time * 1000);
 };
 

@@ -1,5 +1,6 @@
 
 var User = require("../models/user"),
+ BailOut = require("../models/bailout"),
   twilio = require("twilio");
 
 function BailController() {
