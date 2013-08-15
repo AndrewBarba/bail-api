@@ -19,7 +19,7 @@ function UserController() {
 		var phone_number = req.body.phone_number;
 		// sanitize here...
 		var code = req.body.verification_code;
-		User.verifyPhoneNumber(phone_number, code, function(){
+		User.verifyPhoneNumber(phone_number, code, function(err, user){
 			if (err || !user) return Error.e400(res, err);
 			return res.json(user);
 		});
