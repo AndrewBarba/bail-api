@@ -125,9 +125,9 @@ UserSchema.methods.bail = function(time, callback) {
                 if (!err && success) {
                     user.bail_outs = user.bail_outs + 1;
                     user.save();
-                    return callback(null, bailout);
+                    if (callback) callback(null, bailout);
                 } else {
-                    return callback(err);
+                    if (callback) callback(err);
                 }
             });
         });
