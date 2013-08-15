@@ -64,10 +64,22 @@ UserSchema.statics.findOrCreate = function(phone_number, callback) {
  */ 
 UserSchema.statics.verifyPhoneNumber = function(phone_number, code, callback) {
     User.findOrCreate(phone_number, function(err, user){
-        if (err || !user || user.verification_code != code) {
+        if (err || !user) {
             return callback(err);
         } else {
-            return callback(null, user);
+            var now = (new Date()).getTime()/1000;
+            var updated = user.updated_at / 1000;
+            var diff = now - updated;
+            var exp = 60 * 5;
+            if (diff > exp) { // time expired
+                return callback("Time expired to verify number.");
+            } else {
+                if (user.verification_code === code) {
+                    return callback(null, user);
+                } else {
+                    return callback("Verification codes do not match.");
+                }
+            }
         }
     });
 };
