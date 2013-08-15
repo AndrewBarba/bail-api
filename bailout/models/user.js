@@ -123,7 +123,6 @@ UserSchema.methods.bail = function(time, callback) {
             var success = err ? false : true;
             BailOut.log(user.phone_number, success, function(err, bailout){
                 if (bailout && bailout.success) {
-                    trace("adding one to bailout", 1);
                     user.bail_outs = user.bail_outs + 1;
                     user.save();
                     if (callback) callback(null, bailout);
