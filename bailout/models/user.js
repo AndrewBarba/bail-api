@@ -62,6 +62,19 @@ UserSchema.statics.findOrCreate = function(phone_number, callback) {
 /**
  * Sends a verification SMS to the user
  */ 
+UserSchema.statics.verifyPhoneNumber = function(phone_number, code, callback) {
+    User.findOrCreate(phone_number, function(err, user){
+        if (err || !user || user.verification_code != code) {
+            return callback(err);
+        } else {
+            return callback(null, user);
+        }
+    });
+};
+
+/**
+ * Sends a verification SMS to the user
+ */ 
 UserSchema.methods.verifyViaSMS = function(callback) {
     var phone_number = "+" + this.phone_number;
     var message = "Thanks for using BailOut! Enter this code to verify your cell number: " + this.verification_code;
