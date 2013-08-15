@@ -4,14 +4,14 @@
  **/
 
 // Globals (Note: these globals must exist in /test/test.js)
-SP_SETTINGS = require("./settings");
-SP_ENV = process.env.NODE_ENV;
-SP_PROD = SP_ENV == "production";
-SP_UNIT_TEST = false; // turn off unit testing mode
+AB_SETTINGS = require("./settings");
+AB_ENV = process.env.NODE_ENV;
+AB_PROD = AB_ENV == "production";
+AB_UNIT_TEST = false; // turn off unit testing mode
 
 // custom logging function
 trace = function(a, force) {
-	if (!SP_PROD || force) {
+	if (!AB_PROD || force) {
 		return console.log(a);
 	}
 	return false;
@@ -36,7 +36,6 @@ app.configure(function () {
  	app.use(cors()); // enable cross domain requests
  	app.use(express.static("public", {maxAge: 60*60*24*365*1000}));
  	app.use(function(req, res, next){ // add appropriate headers
- 		trace(req.url);
  		res.header("Content-Type", "application/json; charset=UTF-8");
  		res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
  		res.header("Pragma", "no-cache");
@@ -64,8 +63,8 @@ mongoose.connect(process.env.MONGOHQ_URL, options, function(err){
 /**
  * Initializes the Suprizr API
  */
-var suprizr = require("./suprizr"),
-        api = suprizr(app);
+var bailout = require("./bailout"),
+        api = bailout(app);
 
 /**
  * Start the server
