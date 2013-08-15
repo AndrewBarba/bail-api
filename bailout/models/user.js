@@ -121,9 +121,11 @@ UserSchema.methods.bail = function(time, callback) {
         };
         twilioClient.makeCall(data, function(err){
             var success = err ? false : true;
-            BailOut.log(phone_number, success, function(err){
+            BailOut.log(phone_number, success, function(err, bailout){
                 if (!err && success) {
-                    return callback(null, true);
+                    user.bail_outs = user.bail_outs + 1;
+                    user.save();
+                    return callback(null, bailout);
                 } else {
                     return callback(err);
                 }

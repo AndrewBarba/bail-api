@@ -13,12 +13,7 @@ function BailController() {
 				var time = req.body.timeout;
 				if (!time) time = 0;
 				if (time > 30) time = 30;
-				user.bail(time, function(err){
-					if (!err) {
-						user.bail_outs = user.bail_outs + 1;
-						user.save();
-					}
-				});
+				user.bail(time);
 				res.json({
 					"status" : "success"
 				});
