@@ -1,0 +1,30 @@
+{
+    "name" : "suprizr-backend",
+    
+    "version" : "0.0.1",
+
+    "dependencies": {
+        "express" : "3.x",
+        "mongoose" : "3.x",
+        "mongoose-schema-extend" : "x",
+        "bcrypt" : "x",
+        "cors" : "x",
+        "stripe" : "x",
+        "aws-sdk" : "x"
+    },
+
+    "devDependencies": {
+        "mocha" : "x",
+        "should" : "x",
+        "supertest" : "x"
+    },
+
+    "engines" : {
+        "node": "0.10.x",
+        "npm": "x"
+    },
+
+    "scripts" : {
+        "test": "make tests"
+    }
+}
