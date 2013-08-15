@@ -21,7 +21,9 @@ function UserController() {
 		var code = req.body.verification_code;
 		User.verifyPhoneNumber(phone_number, code, function(err, user){
 			if (err || !user) return Error.e400(res, err);
-			return res.json(user);
+			return res.json({
+				"auth_token" : user.auth_token
+			});
 		});
 	}
 	
