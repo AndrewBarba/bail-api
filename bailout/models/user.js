@@ -2,9 +2,7 @@
 var BaseSchema = require("../schemas/base"),
       mongoose = require("mongoose"),
         extend = require("mongoose-schema-extend"),
-        bcrypt = require("bcrypt"),
-        twilio = require("twilio"),
-        SALT_WORK_FACTOR = process.env.SALT_WORK_FACTOR || 10;
+  twilioClient = require("../modules/twilio");
 
 var UserSchema = BaseSchema.extend({
     phone_number: { type: String, index: { unique: true } }, // cell number, no +
@@ -72,7 +70,7 @@ UserSchema.methods.verifyViaSMS = function(callback) {
         "from" : AB_SETTINGS.twilio[AB_ENV].phone_number,
         "body" : message
     };
-    twilio.sendSms(data, callback);
+    twilioClient.sendSms(data, callback);
 };
 
 /**
@@ -88,7 +86,7 @@ UserSchema.methods.bail = function(time, callback) {
             "from" : AB_SETTINGS.twilio[AB_ENV].phone_number,
             "url" : "http://bail-api.heroku.com/bail/twiml"
         };
-        twilio.makeCall(data, callback);
+        twilioClient.makeCall(data, callback);
     }, time * 1000);
 };
 

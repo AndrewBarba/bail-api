@@ -10,9 +10,6 @@ function BailOut(app) {
 		this.controller = controller(app);
 	}
 
-    // load Twilio
-    this.twilio = require('twilio')(AB_SETTINGS.twilio[AB_ENV].key, AB_SETTINGS.twilio[AB_ENV].secret);
-
     // Load Modules
     this.module = require("./modules");
 }

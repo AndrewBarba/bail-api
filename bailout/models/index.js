@@ -1,7 +1,6 @@
 
 function Model() {
 	this.User = require("./user");
-	this.Auth = require("./auth");
 }
 
 module.exports = new Model();
