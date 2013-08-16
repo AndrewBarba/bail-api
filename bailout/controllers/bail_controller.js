@@ -8,7 +8,7 @@ function BailController() {
 	this.bailOut = function(req, res, next) {
 		User.getCurrentUser(req, function(err, user){
 			if (err || !user) {
-				return Error.e404(res, err, "Could not find a user with the given auth token.");
+				return Error.e401(res, err);
 			} else {
 				var time = req.body.timeout;
 				if (!time) time = 0;
