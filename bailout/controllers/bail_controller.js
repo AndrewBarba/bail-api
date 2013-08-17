@@ -36,7 +36,7 @@ function BailController() {
 			});
 
 			if (user && user.bail_outs > 0) {
-				twiml.say("Hello! Thank you again for using Bail Out. You have used Bail Out "+ user.bail_outs +" time!. Hopefully this call will keep you occupied while you get away. Good luck!", voice);
+				twiml.say("Hello! Thank you again for using Bail Out. You have used Bail Out "+ user.bail_outs +" times! Hopefully this call will keep you occupied while you get away. Good luck!", voice);
 			} else {
 				twiml.say("Hello! Thank you for using Bail Out. Hopefully this call will keep you occupied while you get away. Good luck!", voice);
 			}
