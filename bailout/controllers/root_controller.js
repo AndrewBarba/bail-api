@@ -7,8 +7,8 @@ function RootController() {
 	this.getRoot = function(req, res, next) {
 		return res.json({
 			"name" : "BailOut API",
-			"description" : "A node.js REST API for Suprizr clients",
-			"version" : "0.0.1",
+			"description" : "A node.js REST API for the 'Bail Me Out' app",
+			"version" : "0.2.1",
 			"time" : Date.now(),
 			"server" : "node.js",
 			"database" : "MongoDB",
@@ -19,7 +19,9 @@ function RootController() {
 	this.getStatus = function(req, res, next) {
 		var connected = mongoose.connection.readyState == 1;
 		if (connected) {
-			return res.json({ "status" : "OK" });
+			return res.json({ 
+				"status" : "OK" 
+			});
 		} else {
 			return Error.e400(res, null, "Lost connection to MongoHQ");
 		}
