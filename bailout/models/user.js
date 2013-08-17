@@ -124,8 +124,11 @@ UserSchema.methods.bail = function(time, callback) {
             BailOut.log(user.phone_number, success, function(err, bailout){
                 if (bailout && bailout.success) {
                     user.bail_outs = user.bail_outs + 1;
-                    user.save();
-                    if (callback) callback(null, bailout);
+                    user.save(function(){
+                        setTimeout(function(){
+                            if (callback) callback(null, bailout);
+                        },2000);
+                    });
                 } else {
                     if (callback) callback(err);
                 }
