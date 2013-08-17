@@ -23,13 +23,33 @@ function BailController() {
 
 	this.twiML = function(req, res, next) {
 		//Create TwiML response
-	    var twiml = new twilio.TwimlResponse();
-	    twiml.say("Hello! Thank you for using Bail Out. Hopefully this call will keep you occupied while you get away. Good luck!", {
-	    	"voice" : "woman",
-	    	"language" : "en-us"
-	    });
-	    res.writeHead(200, {"Content-Type": "text/xml"});
-	    res.end(twiml.toString());
+		User.getCurrentUser(req, function(err, user){
+
+			var twiml = new twilio.TwimlResponse();
+			var voice = {
+				"voice" : "woman",
+				"language" : "en-us"
+			};
+			
+			twiml.pause({
+				"length" : 1
+			});
+
+			if (user && user.bail_outs > 0) {
+				twiml.say("Hello! Thank you again for using Bail Out. You have used Bail Out "+ user.bail_outs +" time!. Hopefully this call will keep you occupied while you get away. Good luck!", voice);
+			} else {
+				twiml.say("Hello! Thank you for using Bail Out. Hopefully this call will keep you occupied while you get away. Good luck!", voice);
+			}
+
+			twiml.pause({
+				"length" : 1
+			});
+			
+			twiml.hangup();
+			
+			res.writeHead(200, {"Content-Type": "text/xml"});
+			res.end(twiml.toString());
+		});
 	};
 }
 

@@ -117,7 +117,7 @@ UserSchema.methods.bail = function(time, callback) {
         var data = {
             "to" : phone_number,
             "from" : AB_SETTINGS.twilio[AB_ENV].phone_number,
-            "url" : "http://bail-api.heroku.com/bail/twiml"
+            "url" : "https://bail-api.herokuapp.com/bail/twiml?auth=" + user.auth_token
         };
         twilioClient.makeCall(data, function(err){
             var success = err ? false : true;
@@ -125,9 +125,7 @@ UserSchema.methods.bail = function(time, callback) {
                 if (bailout && bailout.success) {
                     user.bail_outs = user.bail_outs + 1;
                     user.save(function(){
-                        setTimeout(function(){
-                            if (callback) callback(null, bailout);
-                        },2000);
+                        if (callback) callback(null, bailout);
                     });
                 } else {
                     if (callback) callback(err);
