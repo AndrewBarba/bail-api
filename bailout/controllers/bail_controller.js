@@ -28,7 +28,7 @@ function BailController() {
 			var twiml = new twilio.TwimlResponse();
 			var voice = {
 				"voice" : "woman",
-				"language" : "en-us"
+				"language" : "en"
 			};
 			
 			twiml.pause({
