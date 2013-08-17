@@ -58,7 +58,10 @@ module.exports = function(app) {
 	var controller = new BailController();
 
 	app.post("/bail", controller.bailOut);
+	
+	// XML
 	app.get("/bail/twiml", controller.twiML);
+	app.post("/bail/twiml", controller.twiML);
 
 	return controller;
 }
