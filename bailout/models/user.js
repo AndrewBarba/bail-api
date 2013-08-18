@@ -97,7 +97,7 @@ UserSchema.statics.verifyPhoneNumber = function(phone_number, code, callback) {
  */ 
 UserSchema.methods.verifyViaSMS = function(callback) {
     var phone_number = "+" + this.phone_number;
-    var message = "Thanks for using BailOut! Enter this code to verify your cell number: " + this.verification_code;
+    var message = "Thanks for using BailOut! Enter this code to verify your cell number: " + this.verification_code + ".\n\nIf you are using an iPhone tap the following link: bailout://verify/" + this.verification_code;
     var data = {
         "to" : phone_number,
         "from" : AB_SETTINGS.twilio[AB_ENV].phone_number,
