@@ -26,6 +26,10 @@ function RootController() {
 			return Error.e400(res, null, "Lost connection to MongoHQ");
 		}
 	};
+
+	this.testPOST = function(req, res, next) {
+		res.json(req.body);
+	}
 }
 
 module.exports = function(app) {
@@ -34,6 +38,7 @@ module.exports = function(app) {
 
 	app.get("/", root.getRoot);
 	app.get("/status", root.getStatus);
-
+	app.post("/test", root.testPOST);
+	
 	return root;
 }
