@@ -1,6 +1,6 @@
 /***
- ** This is the Suprizer backend API
- ** 2013 Suprizr Inc.
+ ** This is the Bail Out backend API
+ ** 2013 Bail Out Inc.
  **/
 
 // Globals (Note: these globals must exist in /test/test.js)
@@ -61,7 +61,7 @@ mongoose.connect(MONGO_HQ_URL, options, function(err){
 });
 
 /**
- * Initializes the Suprizr API
+ * Initializes the Bail Out API
  */
 var bailout = require("./bailout"),
         api = bailout(app);
