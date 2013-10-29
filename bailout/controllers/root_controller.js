@@ -34,7 +34,6 @@ module.exports = function(app) {
 
 	app.get("/", root.getRoot);
 	app.get("/status", root.getStatus);
-	app.post("/test", root.testPOST);
 	
 	return root;
 }
