@@ -12,6 +12,7 @@ var UserSchema = BaseSchema.extend({
     phone_number: { type: String, index: { unique: true } }, // cell number, no +
     auth_token: { type: String, default: BLANK_STRING, required: true, index: { unique: true } },
     bail_outs: { type: Number, default: 0 },
+    credits : { type: Number, default: 10 },
     verification_code: { type: String, default: BLANK_STRING }
 });
 
@@ -112,6 +113,12 @@ UserSchema.methods.verifyViaSMS = function(callback) {
  */ 
 UserSchema.methods.bail = function(time, callback) {
     var user = this;
+
+    if (user.credits <= 0) {
+        if (callback) callback({"error":"not enough credits"});
+        return false;
+    }
+
     setTimeout(function(){
         var phone_number = "+" + user.phone_number;
         var data = {
@@ -124,9 +131,9 @@ UserSchema.methods.bail = function(time, callback) {
             BailOut.log(user.phone_number, success, function(err, bailout){
                 if (bailout && bailout.success) {
                     user.bail_outs = user.bail_outs + 1;
-                    user.save(function(){
-                        if (callback) callback(null, bailout);
-                    });
+                    user.credits = user.credits - 1;
+                    user.save();
+                    if (callback) callback(null, bailout);
                 } else {
                     if (callback) callback(err);
                 }

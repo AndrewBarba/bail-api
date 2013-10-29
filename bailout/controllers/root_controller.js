@@ -5,7 +5,7 @@ var mongoose = require("mongoose"),
 function RootController() {
 	
 	this.getRoot = function(req, res, next) {
-		return res.json({
+		return res.send({
 			"name" : "BailOut API",
 			"description" : "A node.js REST API for the 'Bail Me Out' app",
 			"version" : "0.2.1",
@@ -26,10 +26,6 @@ function RootController() {
 			return Error.e400(res, null, "Lost connection to MongoHQ");
 		}
 	};
-
-	this.testPOST = function(req, res, next) {
-		res.json(req.body);
-	}
 }
 
 module.exports = function(app) {
