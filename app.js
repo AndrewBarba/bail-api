@@ -21,8 +21,9 @@ trace = function(a, force) {
  */
 var express = require("express"),
        cors = require("cors"),
-   mongoose = require("mongoose");
-        app = express();
+   mongoose = require("mongoose"),
+        app = express(),
+     server = require('http').Server(app);
 
 // Setup server middleware
 app.configure(function () {
